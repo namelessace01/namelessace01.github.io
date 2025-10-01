@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cybersecurity Professional Portfolio</title>
+        
+        <!-- External Libraries -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script src="https://cdn.tailwindcss.com"></script>
+        
+        <style>
+            /* Modern CSS Variables for theming */
+            :root {
+                --primary-color: #3b82f6;
+                --secondary-color: #22c55e;
+                --accent-color: black   ;
+                --text-primary: #1f2937;
+                --text-secondary: #6b7280;
+                --bg-primary: aliceblue;
+                --bg-secondary: #f9fafb;
+                --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* Print-specific styles */
+            @media print {
+                body { 
+                    background: white !important;
+                    font-size: 11pt;
+                }
+                .no-print { display: none !important; }
+                .page-break { page-break-before: always; }
+                .print-full-width { width: 100% !important; max-width: 100% !important; }
+                a[href]:after { content: none !important; }
+                .skill-bar { box-shadow: none !important; }
+            }
+            
+            /* Smooth scroll behavior */
+            html {
+                scroll-behavior: smooth;
+            }
+            
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background: linear-gradient(135deg, aliceblue 0%, aliceblue 100%);
+                min-height: 100vh;
+                padding: 2rem 3rem;
+            }
+            
+            /* CV Container with glassmorphism */
+            .cv-container {
+                max-width: 1300px;
+                margin: 0 auto;
+                background: var(--bg-primary);
+                border-radius: 16px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                overflow: hidden;
+            }
+            
+            /* Header gradient */
+            .cv-header {
+                background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                color: white;
+                padding: 3rem 2rem;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .cv-header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                animation: rotate 20s linear infinite;
+            }
+            
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            /* Skill bars with animation */
+            .skill-bar {
+                height: 8px;
+                background: #e5e7eb;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+            }
+            
+            .skill-progress {
+                height: 100%;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                border-radius: 4px;
+                transition: width 1.5s ease-out;
+                width: 0;
+            }
+            
+            /* Floating action buttons */
+            .fab-container {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                z-index: 1000;
+            }
+            
+            .fab {
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--shadow);
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .fab:hover {
+                transform: scale(1.1);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            
+            /* Timeline styles */
+            .timeline-item {
+                position: relative;
+                padding-left: 2rem;
+                padding-bottom: 2rem;
+                border-left: 2px solid #e5e7eb;
+            }
+            
+            .timeline-item:last-child {
+                border-left: none;
+                padding-bottom: 0;
+            }
+            
+            .timeline-dot {
+                position: absolute;
+                left: -7px;
+                top: 0;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                border: 3px solid white;
+                box-shadow: 0 0 0 2px var(--primary-color);
+            }
+            
+            /* Card hover effects */
+            .info-card {
+                transition: all 0.3s ease;
+            }
+            
+            .info-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* Responsive typography using clamp */
+            .hero-title {
+                font-size: clamp(2rem, 5vw, 3rem);
+                font-weight: 700;
+                line-height: 1.2;
+            }
+            
+            .section-title {
+                font-size: clamp(1.5rem, 3vw, 2rem);
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            
+            /* Progress ring for skills */
+            .progress-ring {
+                transform: rotate(-90deg);
+            }
+            
+            .progress-ring-circle {
+                transition: stroke-dashoffset 1.5s ease;
+                stroke-dasharray: 283;
+                stroke-dashoffset: 283;
+            }
+            
+            /* Responsive grid for skills */
+            .skills-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            /* Contact icons with hover effect */
+            .contact-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: var(--bg-secondary);
+                border-radius: 8px;
+                text-decoration: none;
+                color: var(--text-primary);
+                transition: all 0.3s ease;
+            }
+            
+            .contact-link:hover {
+                background: var(--primary-color);
+                color: white;
+                transform: translateX(4px);
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                body {
+                    padding: 1rem 0.5rem;
+                }
+                
+                .cv-header {
+                    padding: 2rem 1.5rem;
+                }
+                
+                .fab-container {
+                    bottom: 1rem;
+                    right: 1rem;
+                }
+                
+                .timeline-item {
+                    padding-left: 1.5rem;
+                }
+            }
+            
+            /* Loading animation */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .fade-in {
+                animation: fadeIn 0.6s ease-out forwards;
+            }
+            
+            /* Custom scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 4px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--accent-color);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Floating Action Buttons -->
+        <div class="fab-container no-print">
+            <button class="fab" onclick="window.print()" title="Print CV">
+                <i class="fas fa-print"></i>
+            </button>
+
+            <button class="fab" onclick="downloadPDF()" title="Download PDF">
+                <i class="fas fa-download"></i>
+            </button>
+
+            <button class="fab" onclick="scrollToTop()" title="Scroll to Top">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+
+        <!-- CV Container -->
+        <div class="cv-container">
+            <!-- Header Section -->
+            <header class="cv-header">
+                <div class="relative z-10">
+                    <h1 class="hero-title mb-2">Eniiyi Bishop Ajala</h1>
+                    <p class="text-xl mb-4 opacity-90">Computer Science Graduate | Aspiring Cybersecurity Professional</p>
+                    
+                    <!-- Quick Contact Info -->
+                    <div class="flex flex-wrap gap-4 text-sm">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Akure, Ondo State, Nigeria</span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-phone"></i>
+                            <span>+234 903 418 4414</span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-envelope"></i>
+                            <span>eniiyibishopajala1@gmail.com</span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-birthday-cake"></i>
+                            <span>Born: September 8, 2006 | Yola, Adamawa State</span>
+                        </div>
+
+                        <!-- <div class="flex items-center gap-2">
+                            <i class="fas fa-birthday-cake"></i>
+                            <span>Kingdom Tech Giants</span>
+                        </div> -->
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="p-6 md:p-8">
+                
+                <!-- Professional Summary -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-user-circle text-primary-color"></i>
+                        Professional Summary
+                    </h2>
+
+                    <p class="text-gray-700 leading-relaxed">
+                        Recent Computer Science graduate from Landmark University (Class of 2025) with a passion for cybersecurity and ethical hacking. 
+                        Combining strong technical foundations with a vision to build and secure our digital futures. Currently specializing in 
+                        offensive security and penetration testing while documenting my learning journey to help others entering the field.
+                    </p>
+                </section>
+
+                <!-- Education -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-graduation-cap text-primary-color"></i>
+                        Education
+                    </h2>
+
+                    <div class="info-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Bachelor of Science in Computer Science</h3>
+                                <p class="text-primary-color font-medium">Landmark University, Omu-Aran, Kwara State</p>
+                            </div>
+                            <span class="text-gray-600 font-medium">2021 - 2025</span>
+                        </div>
+                        <p class="text-gray-600 mt-2">The 12th Set</p>
+                    </div>
+
+                    <div class="info-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Senior Secondary Certificate Examinaation (SSCE)</h3>
+                                <p class="text-primary-color font-medium">Complete Child Development College, Akure, Ondo State</p>
+                            </div>
+                            <span class="text-gray-600 font-medium">2019 - 2021</span>
+                        </div>
+
+                        <p class="text-gray-600 mt-2">SSS1 - SSS3</p>
+                        <div class="info-card bg-gray-50 p-6 rounded-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="text-xl font-semibold text-gray-800">Junior Secondary School</h3>
+                                    <p class="text-primary-color font-medium">Federal University of Technology Akure, Akure, Ondo State</p>
+                                </div>
+                                <span class="text-gray-600 font-medium">2016 - 2019</span>
+                            </div>
+                            <p class="text-gray-600 mt-2">JSS1 - JSS3</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">First School Leaving Certificate (FSLC)</h3>
+                                <p class="text-primary-color font-medium">Kingdom Heritage Model School, Akure, Ondo State</p>
+                            </div>
+                            <span class="text-gray-600 font-medium">2014 - 2016</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Core Skills with Progress Bars -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-code text-primary-color"></i>
+                        Technical Skills
+                    </h2>
+                    
+                    <div class="skills-grid">
+                        <!-- Cybersecurity Skills -->
+                        <div class="info-card bg-gray-50 p-5 rounded-lg">
+                            <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fas fa-shield-alt text-red-500"></i>
+                                Cybersecurity
+                            </h3>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between mb-1 text-sm">
+                                        <span>Penetration Testing</span>
+                                        <span class="text-gray-600">10%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="10"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-1 text-sm">
+                                        <span>Network Security</span>
+                                        <span class="text-gray-600">10%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="10"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-1 text-sm">
+                                        <span>Web App Security</span>
+                                        <span class="text-gray-600">20%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="20"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Programming Skills -->
+                        <div class="info-card bg-gray-50 p-5 rounded-lg">
+                            <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fas fa-laptop-code text-blue-500"></i>
+                                Programming
+                            </h3>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between mb-1 text-sm">
+                                        <span>Python</span>
+                                        <span class="text-gray-600">40%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="40"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-1 text-sm">
+                                        <span>JavaScript</span>
+                                        <span class="text-gray-600">40%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="40"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-1 text-sm">
+                                        <span>Linux Terminal</span>
+                                        <span class="text-gray-600">40%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Certifications & Learning Path -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-certificate text-primary-color"></i>
+                        Certifications & Learning Path
+                    </h2>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="info-card bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-gray-800">Introduction To Cyber Security (Cisco Academy)</h3>
+                            <p class="text-sm text-gray-600 mb-2">In Progress - Target: 2025</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="info-card bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-gray-800">Huawei HCIA (Data Communication)</h3>
+                            <p class="text-sm text-gray-600 mb-2">In Progress - Networking Fundamentals</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-green-600 h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="info-card bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-gray-800">B.Sc. Computer Science</h3>
+                            <p class="text-sm text-green-600 font-medium">✓ Completed - Landmark University, 2025</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <a href="./Certifications/Eniiyi Ajala - Intro to Machine Learning.png" target="_blank" style="text-decoration: none;">
+                            <div class="timeline-dot"></div>
+                            <div class="info-card bg-gray-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-800">Introduction To Machine Learning</h3>
+                                <p class="text-sm text-green-600 font-medium">✓ Completed - Kaggle, 2024</p>
+                            </div>        
+                        </a>
+                    </div>
+
+                    <div class="timeline-item">
+                        <a href="./Certifications/Ajala Eniiyi .pdf" target="_blank" style="text-decoration: none;">
+                            <div class="timeline-dot"></div>
+                            <div class="info-card bg-gray-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-800">Computer Engineering Summer Academy: Blockchain Module</h3>
+                                <p class="text-sm text-green-600 font-medium">✓ Completed - Vaughn College, 2023</p>
+                            </div>        
+                        </a>
+                    </div>
+
+                    <div class="timeline-item">
+                        <a href="./Certifications/ajala eniiyi.pdf" target="_blank" style="text-decoration: none;">
+                            <div class="timeline-dot"></div>
+                            <div class="info-card bg-gray-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-800">Computer Engineering Summer Academy: Artificial Intelligence Module</h3>
+                                <p class="text-sm text-green-600 font-medium">✓ Completed - Vaughn College, 2023</p>
+                            </div>        
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Tools & Technologies -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-tools text-primary-color"></i>
+                        Tools & Technologies
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="info-card bg-gray-50 p-4 rounded-lg text-center">
+                            <i class="fab fa-linux text-3xl mb-2 text-yellow-600"></i>
+                            <p class="font-medium text-sm">Kali Linux</p>
+                        </div>
+
+                        <div class="info-card bg-gray-50 p-4 rounded-lg text-center">
+                            <i class="fab fa-python text-3xl mb-2 text-yellow-600"></i>
+                            <p class="font-medium text-sm">Python</p>
+                        </div>
+
+                        <div class="info-card bg-gray-50 p-4 rounded-lg text-center">
+                            <i class="fas fa-search text-3xl mb-2 text-orange-600"></i>
+                            <p class="font-medium text-sm">Burp Suite</p>
+                        </div>
+
+                        <div class="info-card bg-gray-50 p-4 rounded-lg text-center">
+                            <i class="fas fa-terminal text-3xl mb-2 text-green-600"></i>
+                            <p class="font-medium text-sm">Metasploit</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Professional Experience -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-briefcase text-primary-color"></i>
+                        Experience
+                    </h2>
+                    
+                    <div class="info-card bg-gray-50 p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Manager</h3>
+                                <p class="text-primary-color font-medium">Emmy Design Studios</p>
+                            </div>
+                            <span class="text-gray-600 text-sm">August 2025 - Present</span>
+                        </div>
+
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li>Built a Sustainable Financial Tracking System</li>
+                            <li>Quality Delivery of Services to Ensure Customer Satisfaction</li>
+                            <li>Managing Printing Operations and Client Relations</li>
+                            <li>Performing Daily Office and Machine Maintenance</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card bg-gray-50 p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Chairman Conference Planning Committee</h3>
+                                <p class="text-primary-color font-medium">Kingdom Herald Conference '25</p>
+                            </div>
+                            <span class="text-gray-600 text-sm">February - May, 2025</span>
+                        </div>
+
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li>Worked in Collaboration With Two Units of Over 100+ Members Each</li>
+                            <li>Successive Meetings With Planning Committee Members</li>
+                            <li>Supervised Sourvenirs Design to Accompany the Conference</li>
+                            <li>Supervised the Logistics for the Guest Minister</li>
+                            <li>Managed Over One Million Naira for the Conference</li>                                        
+                            <br>
+                            <p>
+                                <a href="#" style="text-decoration: none;" target="_blank">
+                                    <strong>Certificate Of Service</strong>
+                                </a>
+                            </p>
+                        </ul>
+                    </div>
+
+                    <div class="info-card bg-gray-50 p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Software Engineering Intern</h3>
+                                <p class="text-primary-color font-medium">Computer Resource Center, Federal University of Technology Akure</p>
+                            </div>
+                            <span class="text-gray-600 text-sm">March - Septemeber, 2024</span>
+                        </div>
+
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li>Managed the Intern Database as Intern Representative</li>
+                            <li>Submitted Weekly Reports to the Intern Coordinator</li>
+                            <li>Performed Statistical Analysis Using R</li>            
+                            <li>Built Basic Machine-Learning Models</li>
+                            <li>Designed Web Applications Using Foundational Web Technologies</li>
+                            <br> 
+                            <p>
+                                <a href="#" style="text-decoration: none;" target="_blank">
+                                    <strong>Recommendation Letter</strong>
+                                </a>
+                            </p>                    
+                        </ul>
+                    </div>
+
+                    <div class="info-card bg-gray-50 p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Assistant Head One, Ushering Unit</h3>
+                                <p class="text-primary-color font-medium">Landmark University Chaplaincy</p>
+                            </div>
+                            <span class="text-gray-600 text-sm">September 2023 - February 2024</span>
+                        </div>
+
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li>Managed Over One Hundred Present Members</li>
+                            <li>Supervised Unit Members During Services</li>
+                            <li>Organized Peridioc Meetings With Unit Members</li>
+                            <li>Submitted Monthly Reports</li>                                        
+                            <br>
+                            <p>
+                                <a href="#" style="text-decoration: none;" target="_blank">
+                                    <strong>Certificate Of Service</strong>
+                                </a>
+                            </p>
+                        </ul>
+                    </div>
+
+                    <div class="info-card bg-gray-50 p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">Assistant General Secretary, Ushering Unit</h3>
+                                <p class="text-primary-color font-medium">Landmark University Chaplaincy</p>
+                            </div>
+                            <span class="text-gray-600 text-sm">March 2022 - July 2022</span>
+                        </div>
+
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            <li>Kept Records for the Unit</li>
+                            <li>Drafted Memos for Official Requests</li>
+                            <li>Recorded Minutes for Each Unit Meeting</li>
+                            <li>Submitted Monthly Reports</li>                                        
+                            <br>
+                            <p>
+                                <a href="#" style="text-decoration: none;" target="_blank">
+                                    <strong>Certificate Of Service</strong>
+                                </a>
+                            </p>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Interests & Personal Development -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-heart text-primary-color"></i>
+                        Interests & Activities
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-chess text-yellow-600"></i>
+                            <span class="text-sm font-medium">Chess</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-language text-green-600"></i>
+                            <span class="text-sm font-medium">Language Learning</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-video text-purple-600"></i>
+                            <span class="text-sm font-medium">Content Creation</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-book text-blue-600"></i>
+                            <span class="text-sm font-medium">Reading & Writing</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-volleyball-ball text-orange-600"></i>
+                            <span class="text-sm font-medium">Volleyball</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-pray text-indigo-600"></i>
+                            <span class="text-sm font-medium">Faith & Spirituality</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Information -->
+                <section class="mb-8 fade-in">
+                    <h2 class="section-title mb-4 flex items-center gap-3">
+                        <i class="fas fa-address-card text-primary-color"></i>
+                        Contact Information
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <a href="mailto:eniiyibishopajala1@gmail.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>eniiyibishopajala1@gmail.com</span>
+                        </a>
+                        <a href="mailto:kingdomtechgiants@gmail.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>kingdomtechgiants@gmail.com</span>
+                        </a>
+                        <a href="https://github.com/namelessace01" target="_blank" class="contact-link">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Portfolio</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/eniiyi-ajala-/" target="_blank" class="contact-link">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn Profile</span>
+                        </a>
+                        <a href="https://www.instagram.com/_ajalabishop/" target="_blank" class="contact-link">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>            
+                        <a href="tel:+2349034184414" class="contact-link">
+                            <i class="fas fa-phone"></i>
+                            <span>Phone: +234 903 418 4414</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="text-center text-gray-500 text-sm pt-6 border-t border-gray-200">
+                    <p>© 2025 Eniiyi Bishop Ajala | Building Secure Digital Futures</p>
+                    <p class="mt-1">Last Updated: September 2025</p>
+                </footer>
+            </div>
+        </div>
+
+        <script>
+            // Animate skill bars on page load
+            window.addEventListener('load', function() {
+                const skillBars = document.querySelectorAll('.skill-progress');
+                
+                setTimeout(() => {
+                    skillBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        bar.style.width = width + '%';
+                    });
+                }, 500);
+                
+                // Fade in sections with stagger
+                const sections = document.querySelectorAll('.fade-in');
+                sections.forEach((section, index) => {
+                    section.style.animationDelay = (index * 0.1) + 's';
+                });
+            });
+            
+            // Scroll to top function
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Download PDF function (simplified)
+            function downloadPDF() {
+                alert('PDF download functionality:\n\nFor best results:\n1. Click the Print button (or Ctrl+P)\n2. Select "Save as PDF" as the destination\n3. Adjust margins if needed\n4. Save the file\n\nThis ensures the CV prints with proper formatting.');
+                window.print();
+            }
+            
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all section elements
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Add print event listener
+            window.addEventListener('beforeprint', function() {
+                // Ensure all skill bars show full width for printing
+                const skillBars = document.querySelectorAll('.skill-progress');
+                skillBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
+                });
+            });
+        </script>
+    </body>
+</html>
