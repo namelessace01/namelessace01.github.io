@@ -14,7 +14,7 @@ Computer Science graduate from Landmark University (Class of 2025, The 12th Set)
 - Network security
 - Web application security
 
-**Current Role:** Manager at Emmy Design Studios
+**Current Role:** Manager at EmyDesign Studios
 
 ## 📚 Education
 
@@ -39,7 +39,7 @@ Computer Science graduate from Landmark University (Class of 2025, The 12th Set)
 
 ## 💼 Professional Experience
 
-**Manager** | Emmy Design Studios (Aug 2025 - Present)
+**Manager** | EmyDesign Studios (Aug 2025 - Present)
 - Built sustainable financial tracking system
 - Quality service delivery and customer satisfaction
 - Managing printing operations and client relations
