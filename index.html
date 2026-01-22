@@ -266,13 +266,14 @@
     <body>
         <!-- Floating Action Buttons -->
         <div class="fab-container no-print">
-            <button class="fab" onclick="window.print()" title="Print CV">
+            <button class="fab" title="Print CV">
                 <i class="fas fa-print"></i>
+                <a href="Certifications"
             </button>
 
-            <button class="fab" onclick="downloadPDF()" title="Download PDF">
+            <!-- <button class="fab" onclick="downloadPDF()" title="Download PDF">
                 <i class="fas fa-download"></i>
-            </button>
+            </button> -->
 
             <button class="fab" onclick="scrollToTop()" title="Scroll to Top">
                 <i class="fas fa-arrow-up"></i>
@@ -309,10 +310,10 @@
                             <span>Born: September 8 | Yola, Adamawa State</span>
                         </div>
 
-                        <!-- <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2">
                             <i class="fas fa-birthday-cake"></i>
                             <span>Kingdom Tech Giants</span>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </header>
@@ -368,7 +369,7 @@
                                     <h3 class="text-xl font-semibold text-gray-800">Junior Secondary School</h3>
                                     <p class="text-primary-color font-medium">Federal University of Technology Akure, Akure, Ondo State</p>
                                 </div>
-                                <span class="text-gray-600 font-medium">2016 - 2019</span>
+                                <span class="text-gray-600 font-medium">2017 - 2019</span>
                             </div>
                             <p class="text-gray-600 mt-2">JSS1 - JSS3</p>
                         </div>
@@ -380,7 +381,7 @@
                                 <h3 class="text-xl font-semibold text-gray-800">First School Leaving Certificate (FSLC)</h3>
                                 <p class="text-primary-color font-medium">Kingdom Heritage Model School, Akure, Ondo State</p>
                             </div>
-                            <span class="text-gray-600 font-medium">2014 - 2016</span>
+                            <span class="text-gray-600 font-medium">2015 - 2017</span>
                         </div>
                     </div>
                 </section>
@@ -744,17 +745,17 @@
 
                         <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
                             <i class="fas fa-book text-blue-600"></i>
-                            <span class="text-sm font-medium">Reading & Writing</span>
+                            <span class="text-sm font-medium">Reading</span>
+                        </div>
+
+                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
+                            <i class="fas fa-book text-blue-600"></i>
+                            <span class="text-sm font-medium">Writing</span>
                         </div>
 
                         <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
                             <i class="fas fa-volleyball-ball text-orange-600"></i>
                             <span class="text-sm font-medium">Volleyball</span>
-                        </div>
-
-                        <div class="flex items-center gap-2 bg-gray-50 p-3 rounded-lg">
-                            <i class="fas fa-pray text-indigo-600"></i>
-                            <span class="text-sm font-medium">Faith & Spirituality</span>
                         </div>
                     </div>
                 </section>
@@ -830,10 +831,10 @@
             }
             
             // Download PDF function (simplified)
-            function downloadPDF() {
-                alert('PDF download functionality:\n\nFor best results:\n1. Click the Print button (or Ctrl+P)\n2. Select "Save as PDF" as the destination\n3. Adjust margins if needed\n4. Save the file\n\nThis ensures the CV prints with proper formatting.');
-                window.print();
-            }
+            // function downloadPDF() {
+            //     alert('PDF download functionality:\n\nFor best results:\n1. Click the Print button (or Ctrl+P)\n2. Select "Save as PDF" as the destination\n3. Adjust margins if needed\n4. Save the file\n\nThis ensures the CV prints with proper formatting.');
+            //     window.print();
+            // }
             
             // Intersection Observer for scroll animations
             const observerOptions = {
@@ -867,6 +868,7 @@
         </script>
     </body>
 </html>
+
 
 
 
