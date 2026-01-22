@@ -271,7 +271,7 @@
                 <a href="Certifications"
             </button>
 
-            <button class="fab" onclick="window.location.href='Certifications/Eniiyi Bishop Ajala.pdf'" title="Download PDF">
+            <button class="fab" onclick="downloadPDF()" title="Download PDF">
                 <i class="fas fa-download"></i>
             </button>
 
@@ -831,10 +831,13 @@
             }
             
             // Download PDF function (simplified)
-            // function downloadPDF() {
-            //     alert('PDF download functionality:\n\nFor best results:\n1. Click the Print button (or Ctrl+P)\n2. Select "Save as PDF" as the destination\n3. Adjust margins if needed\n4. Save the file\n\nThis ensures the CV prints with proper formatting.');
-            //     window.print();
-            // }
+            function downloadPDF() {
+                alert('PDF download functionality:\n\nFor best results:\n1. Click the Print button (or Ctrl+P)\n2. Select "Save as PDF" as the destination\n3. Adjust margins if needed\n4. Save the file\n\nThis ensures the CV prints with proper formatting.');
+                Object.assign(document.createElement('a'), {
+                href: 'Certifications/Eniiyi Bishop Ajala.pdf',
+                download: 'Eniiyi Bishop Ajala.pdf'
+              }).click();
+            }
             
             // Intersection Observer for scroll animations
             const observerOptions = {
@@ -868,6 +871,7 @@
         </script>
     </body>
 </html>
+
 
 
 
